@@ -57,8 +57,7 @@ def main():
             "--template", "custom",
             "--width", "800",
             "--height", "600",
-            "--name", "Knight's Quest",
-            "src.main"
+            "src/main.py"
         ]
         
         print(f"🚀 Eseguendo: {' '.join(cmd)}")
