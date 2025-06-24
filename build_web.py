@@ -57,7 +57,7 @@ def main():
             "--template", "custom",
             "--width", "800",
             "--height", "600",
-            "src/main.py"
+            "main.py"
         ]
         
         print(f"🚀 Eseguendo: {' '.join(cmd)}")
