@@ -3,256 +3,344 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Knight's Quest: Il Santo Graal</title>
+    <title>Knight's Quest: Il Santo Graal - Gioca Online!</title>
     <style>
         body {
             margin: 0;
-            padding: 20px;
+            padding: 0;
             background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
             font-family: 'Arial', sans-serif;
             color: white;
-            text-align: center;
-            min-height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
+            min-height: 100vh;
         }
-
-        .container {
-            max-width: 1000px;
-            margin: 0 auto;
+        .header {
+            text-align: center;
             padding: 20px;
-            background: rgba(0, 0, 0, 0.3);
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
         }
-
         h1 {
             font-size: 2.5em;
-            margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
             color: #ffd700;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+            margin: 0;
         }
-
-        .subtitle {
-            font-size: 1.2em;
-            margin-bottom: 30px;
-            opacity: 0.9;
-        }
-
-        #game-container {
-            margin: 20px auto;
+        .game-container {
+            background: rgba(0, 0, 0, 0.8);
             border: 3px solid #ffd700;
             border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-            background: #000;
+            padding: 20px;
+            margin: 20px;
         }
-
-        canvas {
+        #gameCanvas {
+            background: #87CEEB;
+            border: 2px solid #8B4513;
             display: block;
-            margin: 0 auto;
         }
-
         .controls {
-            margin: 20px 0;
-            padding: 15px;
+            margin-top: 20px;
+            text-align: center;
             background: rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
+            padding: 15px;
+            border-radius: 8px;
         }
-
-        .controls h3 {
-            margin-top: 0;
-            color: #ffd700;
-        }
-
-        .control-row {
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 15px;
-            margin: 10px 0;
-        }
-
         .control-item {
-            background: rgba(255, 255, 255, 0.2);
-            padding: 8px 12px;
-            border-radius: 5px;
-            font-size: 0.9em;
+            margin: 5px 15px;
+            display: inline-block;
         }
-
-        .key {
-            background: #ffd700;
-            color: #000;
-            padding: 2px 6px;
-            border-radius: 3px;
-            font-weight: bold;
-        }
-
-        .footer {
-            margin-top: 30px;
-            font-size: 0.9em;
-            opacity: 0.8;
-        }
-
-        .github-link {
-            color: #ffd700;
-            text-decoration: none;
-            font-weight: bold;
-        }
-
-        .github-link:hover {
-            text-decoration: underline;
-        }
-
-        .loading {
-            display: block;
-            margin: 20px 0;
-            font-size: 1.1em;
-            color: #ffd700;
-        }
-
         .stats {
             display: flex;
             justify-content: center;
-            gap: 30px;
-            margin: 20px 0;
-            flex-wrap: wrap;
+            gap: 20px;
+            margin: 10px 0;
         }
-
-        .stat-item {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 10px 15px;
-            border-radius: 8px;
+        .stat {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 10px;
+            border-radius: 5px;
             text-align: center;
+            min-width: 80px;
         }
-
-        .stat-number {
-            font-size: 1.5em;
-            font-weight: bold;
+        .github-link {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.7);
             color: #ffd700;
+            text-decoration: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            border: 1px solid #ffd700;
         }
-
-        .stat-label {
-            font-size: 0.9em;
-            opacity: 0.8;
-        }
-
-        @media (max-width: 768px) {
-            .container {
-                padding: 10px;
-                margin: 10px;
-            }
-            
-            h1 {
-                font-size: 2em;
-            }
-            
-            .control-row {
-                flex-direction: column;
-                align-items: center;
-            }
-            
-            .stats {
-                flex-direction: column;
-                gap: 10px;
-            }
+        .github-link:hover {
+            background: rgba(255, 215, 0, 0.2);
         }
     </style>
 </head>
 <body>
-    <div class="container">
+    <a href="https://github.com/casacag/-Knight-s-Quest-Il-Santo-Graal" class="github-link">📦 Codice Sorgente</a>
+    
+    <div class="header">
         <h1>⚔️ Knight's Quest: Il Santo Graal 🏆</h1>
-        <p class="subtitle">Un platformer 2D epico sviluppato in Python con Pygame</p>
-        
+        <p>Versione Web - Gioca nel Browser!</p>
+    </div>
+
+    <div class="game-container">
         <div class="stats">
-            <div class="stat-item">
-                <div class="stat-number">~4335</div>
-                <div class="stat-label">Linee di Codice</div>
+            <div class="stat">
+                <div>❤️ Vita</div>
+                <div id="health">100</div>
             </div>
-            <div class="stat-item">
-                <div class="stat-number">9</div>
-                <div class="stat-label">Moduli Principali</div>
+            <div class="stat">
+                <div>🏆 Punteggio</div>
+                <div id="score">0</div>
             </div>
-            <div class="stat-item">
-                <div class="stat-number">>85%</div>
-                <div class="stat-label">Test Coverage</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-number">4h</div>
-                <div class="stat-label">Tempo di Sviluppo</div>
+            <div class="stat">
+                <div>👹 Nemici</div>
+                <div id="enemies">3</div>
             </div>
         </div>
-
-        <div id="game-container">
-            <div class="loading" id="loading">
-                🎮 Caricamento del gioco...
-            </div>
-            <canvas id="canvas" style="display: none;"></canvas>
-        </div>
-
+        
+        <canvas id="gameCanvas" width="800" height="400"></canvas>
+        
         <div class="controls">
-            <h3>🎮 Comandi di Gioco</h3>
-            <div class="control-row">
-                <div class="control-item"><span class="key">← →</span> Movimento</div>
-                <div class="control-item"><span class="key">SPAZIO</span> Salto</div>
-                <div class="control-item"><span class="key">X</span> Attacco</div>
-            </div>
-            <div class="control-row">
-                <div class="control-item"><span class="key">P</span> Pausa</div>
-                <div class="control-item"><span class="key">ESC</span> Menu</div>
-                <div class="control-item"><span class="key">ENTER</span> Inizia/Conferma</div>
-            </div>
-            <div class="control-row">
-                <div class="control-item"><span class="key">4</span> Salta al Boss (Cheat)</div>
-                <div class="control-item"><span class="key">5</span> Santo Graal (Cheat)</div>
-            </div>
-        </div>
-
-        <div class="footer">
-            <p>
-                💻 Sviluppato con <strong>Python</strong>, <strong>Pygame</strong> e strumenti di <strong>AI-assisted development</strong>
-            </p>
-            <p>
-                📁 <a href="https://github.com/casacag/-Knight-s-Quest-Il-Santo-Graal" class="github-link">Codice sorgente su GitHub</a> | 
-                🧪 Test Coverage >85% | 
-                🏗️ Architettura modulare
-            </p>
+            <div class="control-item"><strong>←→</strong> Muovi</div>
+            <div class="control-item"><strong>SPAZIO</strong> Salta</div>
+            <div class="control-item"><strong>X</strong> Attacca</div>
+            <div class="control-item"><strong>R</strong> Restart</div>
         </div>
     </div>
 
     <script>
-        // Script per gestire il caricamento del gioco
-        window.addEventListener('load', function() {
-            // Simula il caricamento del gioco
-            setTimeout(function() {
-                document.getElementById('loading').style.display = 'none';
-                document.getElementById('canvas').style.display = 'block';
+        // Game variables
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+        
+        let gameState = {
+            player: {
+                x: 100,
+                y: 300,
+                width: 40,
+                height: 60,
+                velocityX: 0,
+                velocityY: 0,
+                onGround: true,
+                health: 100,
+                attacking: false,
+                attackCooldown: 0
+            },
+            enemies: [
+                {x: 400, y: 320, width: 30, height: 40, health: 50, direction: 1},
+                {x: 600, y: 320, width: 30, height: 40, health: 50, direction: -1},
+                {x: 200, y: 320, width: 30, height: 40, health: 50, direction: 1}
+            ],
+            score: 0,
+            keys: {},
+            gravity: 0.8,
+            gameRunning: true
+        };
+
+        // Input handling
+        document.addEventListener('keydown', (e) => {
+            gameState.keys[e.key.toLowerCase()] = true;
+            if (e.key === ' ') e.preventDefault();
+        });
+        
+        document.addEventListener('keyup', (e) => {
+            gameState.keys[e.key.toLowerCase()] = false;
+        });
+
+        // Game logic
+        function updatePlayer() {
+            const player = gameState.player;
+            
+            // Movement
+            if (gameState.keys['arrowleft'] || gameState.keys['a']) {
+                player.velocityX = -5;
+            } else if (gameState.keys['arrowright'] || gameState.keys['d']) {
+                player.velocityX = 5;
+            } else {
+                player.velocityX *= 0.8; // Friction
+            }
+            
+            // Jumping
+            if ((gameState.keys[' '] || gameState.keys['arrowup'] || gameState.keys['w']) && player.onGround) {
+                player.velocityY = -15;
+                player.onGround = false;
+            }
+            
+            // Attacking
+            if (gameState.keys['x'] && player.attackCooldown <= 0) {
+                player.attacking = true;
+                player.attackCooldown = 30;
                 
-                // Qui andrebbe il codice per inizializzare il gioco WebAssembly
-                // Per ora mostriamo un placeholder
-                const canvas = document.getElementById('canvas');
-                const ctx = canvas.getContext('2d');
-                canvas.width = 800;
-                canvas.height = 600;
+                // Check enemy hits
+                gameState.enemies.forEach((enemy, index) => {
+                    const distance = Math.abs(player.x - enemy.x);
+                    if (distance < 70) {
+                        enemy.health -= 25;
+                        if (enemy.health <= 0) {
+                            gameState.enemies.splice(index, 1);
+                            gameState.score += 100;
+                        }
+                    }
+                });
+            }
+            
+            if (player.attackCooldown > 0) {
+                player.attackCooldown--;
+                if (player.attackCooldown <= 0) {
+                    player.attacking = false;
+                }
+            }
+            
+            // Apply gravity
+            player.velocityY += gameState.gravity;
+            
+            // Update position
+            player.x += player.velocityX;
+            player.y += player.velocityY;
+            
+            // Ground collision
+            if (player.y > 300) {
+                player.y = 300;
+                player.velocityY = 0;
+                player.onGround = true;
+            }
+            
+            // Boundaries
+            if (player.x < 0) player.x = 0;
+            if (player.x > canvas.width - player.width) player.x = canvas.width - player.width;
+        }
+
+        function updateEnemies() {
+            gameState.enemies.forEach(enemy => {
+                // Simple AI movement
+                enemy.x += enemy.direction * 1;
                 
-                // Placeholder per il gioco
-                ctx.fillStyle = '#1a1a1a';
+                // Bounce off walls
+                if (enemy.x <= 0 || enemy.x >= canvas.width - enemy.width) {
+                    enemy.direction *= -1;
+                }
+                
+                // Check collision with player
+                const player = gameState.player;
+                if (Math.abs(player.x - enemy.x) < 50 && Math.abs(player.y - enemy.y) < 50) {
+                    if (!player.attacking) {
+                        player.health -= 1;
+                        if (player.health <= 0) {
+                            gameState.gameRunning = false;
+                        }
+                    }
+                }
+            });
+        }
+
+        function draw() {
+            // Clear canvas
+            ctx.fillStyle = '#87CEEB';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            // Draw ground
+            ctx.fillStyle = '#8B4513';
+            ctx.fillRect(0, 360, canvas.width, 40);
+            
+            // Draw player
+            const player = gameState.player;
+            ctx.fillStyle = player.attacking ? '#FFD700' : '#4169E1';
+            ctx.fillRect(player.x, player.y, player.width, player.height);
+            
+            // Draw player sword when attacking
+            if (player.attacking) {
+                ctx.fillStyle = '#C0C0C0';
+                ctx.fillRect(player.x + player.width, player.y + 20, 20, 5);
+            }
+            
+            // Draw enemies
+            ctx.fillStyle = '#DC143C';
+            gameState.enemies.forEach(enemy => {
+                ctx.fillRect(enemy.x, enemy.y, enemy.width, enemy.height);
+                
+                // Enemy health bar
+                ctx.fillStyle = '#FF0000';
+                ctx.fillRect(enemy.x, enemy.y - 10, enemy.width, 5);
+                ctx.fillStyle = '#00FF00';
+                ctx.fillRect(enemy.x, enemy.y - 10, (enemy.width * enemy.health) / 50, 5);
+                ctx.fillStyle = '#DC143C';
+            });
+            
+            // Victory/Game Over messages
+            if (!gameState.gameRunning) {
+                ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
                 ctx.fillRect(0, 0, canvas.width, canvas.height);
                 
-                ctx.fillStyle = '#ffd700';
-                ctx.font = '24px Arial';
+                ctx.fillStyle = '#FFD700';
+                ctx.font = '48px Arial';
                 ctx.textAlign = 'center';
-                ctx.fillText('🎮 Gioco pronto!', canvas.width/2, canvas.height/2 - 20);
-                ctx.fillText('(WebAssembly in fase di configurazione)', canvas.width/2, canvas.height/2 + 20);
+                ctx.fillText('GAME OVER', canvas.width/2, canvas.height/2);
+                ctx.font = '24px Arial';
+                ctx.fillText('Premi R per ricominciare', canvas.width/2, canvas.height/2 + 50);
+            } else if (gameState.enemies.length === 0) {
+                ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
                 
-                ctx.fillStyle = '#ffffff';
-                ctx.font = '16px Arial';
-                ctx.fillText('Premi F5 per ricaricare quando il build WebAssembly sarà pronto', canvas.width/2, canvas.height/2 + 60);
-                
-            }, 2000);
-        });
+                ctx.fillStyle = '#FFD700';
+                ctx.font = '48px Arial';
+                ctx.textAlign = 'center';
+                ctx.fillText('VITTORIA!', canvas.width/2, canvas.height/2);
+                ctx.font = '24px Arial';
+                ctx.fillText('Hai trovato il Santo Graal!', canvas.width/2, canvas.height/2 + 50);
+                ctx.fillText('Premi R per ricominciare', canvas.width/2, canvas.height/2 + 80);
+            }
+        }
+
+        function updateUI() {
+            document.getElementById('health').textContent = Math.max(0, gameState.player.health);
+            document.getElementById('score').textContent = gameState.score;
+            document.getElementById('enemies').textContent = gameState.enemies.length;
+        }
+
+        function resetGame() {
+            gameState.player = {
+                x: 100,
+                y: 300,
+                width: 40,
+                height: 60,
+                velocityX: 0,
+                velocityY: 0,
+                onGround: true,
+                health: 100,
+                attacking: false,
+                attackCooldown: 0
+            };
+            gameState.enemies = [
+                {x: 400, y: 320, width: 30, height: 40, health: 50, direction: 1},
+                {x: 600, y: 320, width: 30, height: 40, health: 50, direction: -1},
+                {x: 200, y: 320, width: 30, height: 40, health: 50, direction: 1}
+            ];
+            gameState.score = 0;
+            gameState.gameRunning = true;
+        }
+
+        // Game loop
+        function gameLoop() {
+            if (gameState.keys['r']) {
+                resetGame();
+            }
+            
+            if (gameState.gameRunning && gameState.enemies.length > 0) {
+                updatePlayer();
+                updateEnemies();
+            }
+            
+            draw();
+            updateUI();
+            requestAnimationFrame(gameLoop);
+        }
+
+        // Start the game
+        gameLoop();
     </script>
 </body>
 </html> 
