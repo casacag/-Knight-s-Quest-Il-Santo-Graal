@@ -1,0 +1,95 @@
+name: Deploy Knight's Quest to GitHub Pages
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Set up Python 3.11
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+    
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        pip install pytest pytest-cov
+    
+    - name: Run tests
+      run: |
+        python -m pytest tests/ -v --cov=src --cov-report=xml --cov-report=term-missing
+    
+    - name: Upload coverage reports
+      uses: codecov/codecov-action@v3
+      with:
+        file: ./coverage.xml
+        fail_ci_if_error: false
+
+  build-and-deploy:
+    needs: test
+    runs-on: ubuntu-latest
+    
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Set up Python 3.11
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+    
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        pip install pygbag
+    
+    - name: Build WebAssembly with pygbag
+      run: |
+        # Crea directory per il build
+        mkdir -p dist
+        
+        # Per ora, copiamo semplicemente i file statici
+        # TODO: Uncomment quando il gioco sarà completamente compatibile con pygbag
+        # python -m pygbag --archive --ume_block 0 --cdn https://cdn.jsdelivr.net/pyodide/ src.main
+        
+        # Copia i file HTML e assets
+        cp index.html dist/
+        cp -r sprites dist/ 2>/dev/null || echo "No sprites directory found"
+        
+        # Crea una versione di fallback che mostra il progetto
+        echo "Build completato con fallback HTML"
+    
+    - name: Setup Pages
+      uses: actions/configure-pages@v3
+      
+    - name: Upload artifact
+      uses: actions/upload-pages-artifact@v2
+      with:
+        path: './dist'
+        
+    - name: Deploy to GitHub Pages
+      id: deployment
+      uses: actions/deploy-pages@v2 
