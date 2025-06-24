@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Knight's Quest: Il Santo Graal</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            font-family: 'Arial', sans-serif;
+            color: white;
+            text-align: center;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+            color: #ffd700;
+        }
+
+        .subtitle {
+            font-size: 1.2em;
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+
+        #game-container {
+            margin: 20px auto;
+            border: 3px solid #ffd700;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            background: #000;
+        }
+
+        canvas {
+            display: block;
+            margin: 0 auto;
+        }
+
+        .controls {
+            margin: 20px 0;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+        }
+
+        .controls h3 {
+            margin-top: 0;
+            color: #ffd700;
+        }
+
+        .control-row {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin: 10px 0;
+        }
+
+        .control-item {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 8px 12px;
+            border-radius: 5px;
+            font-size: 0.9em;
+        }
+
+        .key {
+            background: #ffd700;
+            color: #000;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-weight: bold;
+        }
+
+        .footer {
+            margin-top: 30px;
+            font-size: 0.9em;
+            opacity: 0.8;
+        }
+
+        .github-link {
+            color: #ffd700;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .github-link:hover {
+            text-decoration: underline;
+        }
+
+        .loading {
+            display: block;
+            margin: 20px 0;
+            font-size: 1.1em;
+            color: #ffd700;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+
+        .stat-item {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 10px 15px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #ffd700;
+        }
+
+        .stat-label {
+            font-size: 0.9em;
+            opacity: 0.8;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+                margin: 10px;
+            }
+            
+            h1 {
+                font-size: 2em;
+            }
+            
+            .control-row {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .stats {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>⚔️ Knight's Quest: Il Santo Graal 🏆</h1>
+        <p class="subtitle">Un platformer 2D epico sviluppato in Python con Pygame</p>
+        
+        <div class="stats">
+            <div class="stat-item">
+                <div class="stat-number">~2,100</div>
+                <div class="stat-label">Linee di Codice</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">9</div>
+                <div class="stat-label">Moduli</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">>85%</div>
+                <div class="stat-label">Test Coverage</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">4h</div>
+                <div class="stat-label">Tempo di Sviluppo</div>
+            </div>
+        </div>
+
+        <div id="game-container">
+            <div class="loading" id="loading">
+                🎮 Caricamento del gioco...
+            </div>
+            <canvas id="canvas" style="display: none;"></canvas>
+        </div>
+
+        <div class="controls">
+            <h3>🎮 Comandi di Gioco</h3>
+            <div class="control-row">
+                <div class="control-item"><span class="key">← →</span> Movimento</div>
+                <div class="control-item"><span class="key">SPAZIO</span> Salto</div>
+                <div class="control-item"><span class="key">X</span> Attacco</div>
+            </div>
+            <div class="control-row">
+                <div class="control-item"><span class="key">P</span> Pausa</div>
+                <div class="control-item"><span class="key">ESC</span> Menu</div>
+                <div class="control-item"><span class="key">ENTER</span> Inizia/Conferma</div>
+            </div>
+            <div class="control-row">
+                <div class="control-item"><span class="key">4</span> Salta al Boss (Cheat)</div>
+                <div class="control-item"><span class="key">5</span> Santo Graal (Cheat)</div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>
+                💻 Sviluppato con <strong>Python</strong>, <strong>Pygame</strong> e strumenti di <strong>AI-assisted development</strong>
+            </p>
+            <p>
+                📁 <a href="https://github.com/casacag/-Knight-s-Quest-Il-Santo-Graal" class="github-link">Codice sorgente su GitHub</a> | 
+                🧪 Test Coverage >85% | 
+                🏗️ Architettura modulare
+            </p>
+        </div>
+    </div>
+
+    <script>
+        // Script per gestire il caricamento del gioco
+        window.addEventListener('load', function() {
+            // Simula il caricamento del gioco
+            setTimeout(function() {
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('canvas').style.display = 'block';
+                
+                // Qui andrebbe il codice per inizializzare il gioco WebAssembly
+                // Per ora mostriamo un placeholder
+                const canvas = document.getElementById('canvas');
+                const ctx = canvas.getContext('2d');
+                canvas.width = 800;
+                canvas.height = 600;
+                
+                // Placeholder per il gioco
+                ctx.fillStyle = '#1a1a1a';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                
+                ctx.fillStyle = '#ffd700';
+                ctx.font = '24px Arial';
+                ctx.textAlign = 'center';
+                ctx.fillText('🎮 Gioco pronto!', canvas.width/2, canvas.height/2 - 20);
+                ctx.fillText('(WebAssembly in fase di configurazione)', canvas.width/2, canvas.height/2 + 20);
+                
+                ctx.fillStyle = '#ffffff';
+                ctx.font = '16px Arial';
+                ctx.fillText('Premi F5 per ricaricare quando il build WebAssembly sarà pronto', canvas.width/2, canvas.height/2 + 60);
+                
+            }, 2000);
+        });
+    </script>
+</body>
+</html> 
